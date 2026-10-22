@@ -1,0 +1,13 @@
+# Java compiled files
+*.class
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# macOS
+.DS_Store
+
+# Personal training data
+.basket-tracker.csv
