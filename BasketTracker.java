@@ -78,11 +78,18 @@ public class BasketTracker {
 
     private static void aggiungi(String tipo) throws IOException {
         LocalDate data = leggiData();
-        int minuti;
+        if (data == null) {
+            return;
+        }
+
+        Integer minuti;
         if(tipo.equals("A")){
             minuti = 90;
         } else {
             minuti = leggiDurataPartita();
+            if (minuti == null) {
+                return;
+            }
         }
 
         // Warn if a match is not scheduled on a weekend.
@@ -111,11 +118,15 @@ public class BasketTracker {
 
         // Keep asking until the user enters a valid date.
         while (true) {
-            System.out.print("Data (gg/mm/aaaa): ");
+            System.out.print("Data (gg/mm/aaaa, 0 = torna al menu): ");
+            String risposta = INPUT.nextLine().trim();
+            if (risposta.equals("0")) {
+                return null;
+            }
 
             try {
                 // Convert the entered text into a LocalDate using DATA.
-                return LocalDate.parse(INPUT.nextLine().trim(), DATA);
+                return LocalDate.parse(risposta, DATA);
 
             } catch (DateTimeParseException e) {
                 // Handle invalid dates without terminating the program.
@@ -126,12 +137,15 @@ public class BasketTracker {
 
 
     // Reads the duration of a match and converts it into minutes.
-    private static int leggiDurataPartita() {
+    private static Integer leggiDurataPartita() {
 
         // Keep asking until the user enters a valid duration.
         while (true) {
-            System.out.print("Durata partita (ore:minuti, es. 2:15): ");
+            System.out.print("Durata partita (ore:minuti, es. 2:15, 0 = torna al menu): ");
             String durata = INPUT.nextLine().trim();
+            if (durata.equals("0")) {
+                return null;
+            }
 
             // Check if the input matches the hours:minutes format.
             // \\d+ means one or more digits (hours).
@@ -170,11 +184,15 @@ public class BasketTracker {
 
         // Ask the user to enter a valid year and month.
         while (true) {
-            System.out.print("Mese (aaaa-mm, es. 2026-10): ");
+            System.out.print("Mese (aaaa-mm, es. 2026-10, 0 = torna al menu): ");
+            String risposta = INPUT.nextLine().trim();
+            if (risposta.equals("0")) {
+                return;
+            }
 
             try {
                 // Convert the input into a YearMonth object.
-                mese = YearMonth.parse(INPUT.nextLine().trim());
+                mese = YearMonth.parse(risposta);
 
                 // Exit the loop when the input is valid.
                 break;
